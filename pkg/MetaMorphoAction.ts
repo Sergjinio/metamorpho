@@ -2,179 +2,199 @@ import { BigNumberish } from "ethers";
 import { MetaMorpho__factory } from "types";
 import { MarketAllocationStruct, MarketParamsStruct } from "types/src/MetaMorpho";
 
-const METAMORPHO_IFC = MetaMorpho__factory.createInterface();
+const METAMORPHO_INTERFACE = MetaMorpho__factory.createInterface();
 
 export type MetaMorphoCall = string;
 
-export namespace MetaMorphoAction {
+export namespace MetaMorphoActions {
   /* CONFIGURATION */
 
   /**
    * Encodes a call to a MetaMorpho vault to set the curator.
    * @param newCurator The address of the new curator.
+   * @returns The encoded function call.
    */
   export function setCurator(newCurator: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setCurator", [newCurator]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("setCurator", [newCurator]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to enable or disable an allocator.
-   * @param newAllocator The address of the allocator.
-   * @param newIsAllocator Whether the allocator should be enabled or disabled.
+   * @param allocator The address of the allocator.
+   * @param isAllocator Whether the allocator should be enabled or disabled.
+   * @returns The encoded function call.
    */
-  export function setIsAllocator(newAllocator: string, newIsAllocator: boolean): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setIsAllocator", [newAllocator, newIsAllocator]);
+  export function setIsAllocator(allocator: string, isAllocator: boolean): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("setIsAllocator", [allocator, isAllocator]);
   }
 
   /**
-   * Encode a call to a MetaMorpho vault to set the fee recipient.
-   * @param newFeeRecipient The address of the new fee recipient.
+   * Encodes a call to a MetaMorpho vault to set the fee recipient.
+   * @param feeRecipient The address of the new fee recipient.
+   * @returns The encoded function call.
    */
-  export function setFeeRecipient(newFeeRecipient: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setFeeRecipient", [newFeeRecipient]);
+  export function setFeeRecipient(feeRecipient: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("setFeeRecipient", [feeRecipient]);
   }
 
   /**
-   * Encode a call to a MetaMorpho vault to set the skim recipient.
-   * @param newSkimRecipient The address of the new skim recipient.
+   * Encodes a call to a MetaMorpho vault to set the skim recipient.
+   * @param skimRecipient The address of the new skim recipient.
+   * @returns The encoded function call.
    */
-  export function setSkimRecipient(newSkimRecipient: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setSkimRecipient", [newSkimRecipient]);
+  export function setSkimRecipient(skimRecipient: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("setSkimRecipient", [skimRecipient]);
   }
 
   /**
-   * Encode a call to a MetaMorpho vault to set the fee.
+   * Encodes a call to a MetaMorpho vault to set the fee.
    * @param fee The new fee percentage (in WAD).
+   * @returns The encoded function call.
    */
   export function setFee(fee: BigNumberish): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setFee", [fee]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("setFee", [fee]);
   }
 
   /* TIMELOCK */
 
   /**
    * Encodes a call to a MetaMorpho vault to submit a new timelock.
-   * @param newTimelock The new timelock (in seconds).
+   * @param timelock The new timelock (in seconds).
+   * @returns The encoded function call.
    */
-  export function submitTimelock(newTimelock: BigNumberish): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("submitTimelock", [newTimelock]);
+  export function submitTimelock(timelock: BigNumberish): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("submitTimelock", [timelock]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to accept the pending timelock.
+   * @returns The encoded function call.
    */
   export function acceptTimelock(): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("acceptTimelock");
+    return METAMORPHO_INTERFACE.encodeFunctionData("acceptTimelock");
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to revoke the pending timelock.
+   * @returns The encoded function call.
    */
   export function revokePendingTimelock(): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("revokePendingTimelock");
+    return METAMORPHO_INTERFACE.encodeFunctionData("revokePendingTimelock");
   }
 
   /* SUPPLY CAP */
 
   /**
    * Encodes a call to a MetaMorpho vault to submit a new supply cap.
-   * @param marketParams The market params of the market of which to submit a supply cap.
-   * @param newSupplyCap The new supply cap.
+   * @param marketParams The market parameters of the market to submit a supply cap for.
+   * @param supplyCap The new supply cap.
+   * @returns The encoded function call.
    */
-  export function submitCap(marketParams: MarketParamsStruct, newSupplyCap: BigNumberish): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("submitCap", [marketParams, newSupplyCap]);
+  export function submitCap(marketParams: MarketParamsStruct, supplyCap: BigNumberish): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("submitCap", [marketParams, supplyCap]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to accept the pending supply cap.
-   * @param marketParams The market params of the market of which to accept the pending supply cap.
+   * @param marketParams The market parameters of the market to accept the pending supply cap for.
+   * @returns The encoded function call.
    */
   export function acceptCap(marketParams: MarketParamsStruct): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("acceptCap", [marketParams]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("acceptCap", [marketParams]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to revoke the pending supply cap.
-   * @param id The id of the market of which to revoke the pending supply cap.
+   * @param marketId The ID of the market to revoke the pending supply cap for.
+   * @returns The encoded function call.
    */
-  export function revokePendingCap(id: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("revokePendingCap", [id]);
+  export function revokePendingCap(marketId: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("revokePendingCap", [marketId]);
   }
 
   /* FORCED MARKET REMOVAL */
 
   /**
    * Encodes a call to a MetaMorpho vault to submit a market removal.
-   * @param marketParams The market params of the market to remove.
+   * @param marketParams The market parameters of the market to remove.
+   * @returns The encoded function call.
    */
   export function submitMarketRemoval(marketParams: MarketParamsStruct): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("submitMarketRemoval", [marketParams]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("submitMarketRemoval", [marketParams]);
   }
 
   /**
-   * Encodes a call to a MetaMorpho vault to accept the pending market removal.
-   * @param id The id of the market of which to accept the removal.
+   * Encodes a call to a MetaMorpho vault to revoke the pending market removal.
+   * @param marketId The ID of the market to revoke the pending removal for.
+   * @returns The encoded function call.
    */
-  export function revokePendingMarketRemoval(id: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("revokePendingMarketRemoval", [id]);
+  export function revokePendingMarketRemoval(marketId: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("revokePendingMarketRemoval", [marketId]);
   }
 
   /* GUARDIAN */
 
   /**
    * Encodes a call to a MetaMorpho vault to submit a new guardian.
-   * @param newGuardian The address of the new guardian.
+   * @param guardian The address of the new guardian.
+   * @returns The encoded function call.
    */
-  export function submitGuardian(newGuardian: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("submitGuardian", [newGuardian]);
+  export function submitGuardian(guardian: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("submitGuardian", [guardian]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to accept the pending guardian.
+   * @returns The encoded function call.
    */
   export function acceptGuardian(): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("acceptGuardian");
+    return METAMORPHO_INTERFACE.encodeFunctionData("acceptGuardian");
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to revoke the pending guardian.
+   * @returns The encoded function call.
    */
   export function revokePendingGuardian(): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("revokePendingGuardian");
+    return METAMORPHO_INTERFACE.encodeFunctionData("revokePendingGuardian");
   }
 
   /* MANAGEMENT */
 
   /**
    * Encodes a call to a MetaMorpho vault to skim ERC20 tokens.
-   * @param erc20 The address of the ERC20 token to skim.
+   * @param tokenAddress The address of the ERC20 token to skim.
+   * @returns The encoded function call.
    */
-  export function skim(erc20: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("skim", [erc20]);
+  export function skim(tokenAddress: string): MetaMorphoCall {
+    return METAMORPHO_INTERFACE.encodeFunctionData("skim", [tokenAddress]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to set the supply queue.
    * @param supplyQueue The new supply queue.
+   * @returns The encoded function call.
    */
   export function setSupplyQueue(supplyQueue: string[]): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("setSupplyQueue", [supplyQueue]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("setSupplyQueue", [supplyQueue]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to update the withdraw queue.
    * @param indexes The indexes of each market in the previous withdraw queue, in the new withdraw queue's order.
+   * @returns The encoded function call.
    */
   export function updateWithdrawQueue(indexes: BigNumberish[]): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("updateWithdrawQueue", [indexes]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("updateWithdrawQueue", [indexes]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to reallocate the vault's liquidity across enabled markets.
-   * @param allocations The new target allocations of each market.
+   * @param allocations The new target allocations for each market.
+   * @returns The encoded function call.
    */
   export function reallocate(allocations: MarketAllocationStruct[]): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("reallocate", [allocations]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("reallocate", [allocations]);
   }
 
   /* ERC4626 */
@@ -182,40 +202,44 @@ export namespace MetaMorphoAction {
   /**
    * Encodes a call to a MetaMorpho vault to mint shares.
    * @param shares The amount of shares to mint.
-   * @param receiver The address of the receiver of the shares.
+   * @param receiver The address of the shares' receiver.
+   * @returns The encoded function call.
    */
   export function mint(shares: BigNumberish, receiver: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("mint", [shares, receiver]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("mint", [shares, receiver]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to deposit assets.
    * @param assets The amount of assets to deposit.
-   * @param receiver The address of the receiver of the shares.
+   * @param receiver The address of the assets' receiver.
+   * @returns The encoded function call.
    */
   export function deposit(assets: BigNumberish, receiver: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("deposit", [assets, receiver]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("deposit", [assets, receiver]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to withdraw assets.
    * @param assets The amount of assets to withdraw.
-   * @param receiver The address of the receiver of the assets.
-   * @param owner The address of the owner of the shares to redeem.
+   * @param receiver The address of the assets' receiver.
+   * @param owner The address of the shares' owner to redeem.
+   * @returns The encoded function call.
    */
   export function withdraw(assets: BigNumberish, receiver: string, owner: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("withdraw", [assets, receiver, owner]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("withdraw", [assets, receiver, owner]);
   }
 
   /**
    * Encodes a call to a MetaMorpho vault to redeem shares.
    * @param shares The amount of shares to redeem.
-   * @param receiver The address of the receiver of the assets.
-   * @param owner The address of the owner of the shares to redeem.
+   * @param receiver The address of the assets' receiver.
+   * @param owner The address of the shares' owner to redeem.
+   * @returns The encoded function call.
    */
   export function redeem(shares: BigNumberish, receiver: string, owner: string): MetaMorphoCall {
-    return METAMORPHO_IFC.encodeFunctionData("redeem", [shares, receiver, owner]);
+    return METAMORPHO_INTERFACE.encodeFunctionData("redeem", [shares, receiver, owner]);
   }
 }
 
-export default MetaMorphoAction;
+export default MetaMorphoActions;
